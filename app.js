@@ -4,6 +4,8 @@ const documentRoot = document.querySelector("#document");
 const tocRoot = document.querySelector("#toc");
 const themeToggle = document.querySelector("#theme-toggle");
 const backToTop = document.querySelector("#back-to-top");
+const sidebarToggle = document.querySelector("#sidebar-toggle");
+const sidebarBackdrop = document.querySelector("#sidebar-backdrop");
 
 function slugify(text, index) {
   const slug = text.trim().toLowerCase()
@@ -100,6 +102,40 @@ function installPageBehavior() {
     const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = next;
     localStorage.setItem("theme", next);
+  });
+
+  const mobileSidebar = () => window.matchMedia("(max-width: 900px)").matches;
+  const syncSidebarButton = () => {
+    const expanded = mobileSidebar()
+      ? document.body.classList.contains("sidebar-open")
+      : !document.body.classList.contains("sidebar-collapsed");
+    sidebarToggle.setAttribute("aria-expanded", String(expanded));
+    sidebarToggle.setAttribute("aria-label", expanded ? "收起目录" : "展开目录");
+  };
+  const closeMobileSidebar = () => {
+    document.body.classList.remove("sidebar-open");
+    syncSidebarButton();
+  };
+
+  if (localStorage.getItem("sidebar-collapsed") === "true" && !mobileSidebar()) {
+    document.body.classList.add("sidebar-collapsed");
+  }
+  syncSidebarButton();
+  sidebarToggle.addEventListener("click", () => {
+    if (mobileSidebar()) {
+      document.body.classList.toggle("sidebar-open");
+    } else {
+      document.body.classList.toggle("sidebar-collapsed");
+      localStorage.setItem("sidebar-collapsed", String(document.body.classList.contains("sidebar-collapsed")));
+    }
+    syncSidebarButton();
+  });
+  sidebarBackdrop.addEventListener("click", closeMobileSidebar);
+  tocRoot.addEventListener("click", () => { if (mobileSidebar()) closeMobileSidebar(); });
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeMobileSidebar(); });
+  window.addEventListener("resize", () => {
+    document.body.classList.remove("sidebar-open");
+    syncSidebarButton();
   });
 
   backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));

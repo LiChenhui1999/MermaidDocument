@@ -6,20 +6,26 @@
   <meta name="description" content="Mermaid 常用作图语法与可复制示例">
   <meta name="color-scheme" content="light dark">
   <title>Mermaid 常用作图语法表</title>
+  <link rel="icon" type="image/png" href="./favicon.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="返回顶部">
-      <span class="brand-mark" aria-hidden="true">M</span>
-      <span>Mermaid 语法表</span>
-    </a>
-    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切换深浅色主题">◐</button>
+    <div class="header-start">
+      <button id="sidebar-toggle" class="icon-button menu-button" type="button" aria-label="收起目录" aria-controls="sidebar" aria-expanded="true">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="brand" href="#top" aria-label="返回顶部">
+        <img class="brand-mark" src="./favicon.png" alt="">
+        <span>Mermaid 语法表</span>
+      </a>
+    </div>
+    <button id="theme-toggle" class="icon-button theme-toggle" type="button" aria-label="切换深浅色主题">◐</button>
   </header>
 
   <div class="page-shell">
-    <aside class="sidebar" aria-label="文档目录">
+    <aside id="sidebar" class="sidebar" aria-label="文档目录">
       <p class="sidebar-title">目录</p>
       <nav id="toc"></nav>
     </aside>
@@ -33,6 +39,7 @@
       </article>
     </main>
   </div>
+  <button id="sidebar-backdrop" class="sidebar-backdrop" type="button" aria-label="关闭目录"></button>
 
   <button id="back-to-top" class="back-to-top" type="button" aria-label="返回顶部">↑</button>
 
